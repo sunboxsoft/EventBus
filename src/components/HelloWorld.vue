@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+
+    <input type="text" ref="code" @blur="LoseFocus"/><button @click="$refs.code.focus()">获取焦点</button>
     <div class="content">
       <Left></Left>
       <Right></Right>
@@ -19,6 +21,11 @@ export default {
     };
   },
   components: { Right, Left },
+  methods:{
+    LoseFocus(e){
+      console.log('失去焦点时触发',e.target.value)
+    }
+  }
 };
 </script>
 
