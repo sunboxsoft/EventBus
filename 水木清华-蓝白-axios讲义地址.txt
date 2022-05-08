@@ -1,0 +1,192 @@
+http://doc.bufanui.com/docs/vue/vue-1dm8o53276d04
+
+
+一、简介
+
+axios 是一个基于Promise 用于浏览器和 nodejs 的 HTTP 客户端，它本身具有以下特征：
+二、axios特性
+
+        从浏览器中创建 XMLHttpRequest
+        从 node.js 发出 http 请求
+        支持 Promise API
+        拦截请求和响应
+        转换请求和响应数据
+        取消请求
+        自动转换JSON数据
+        客户端支持防止 CSRF/XSRF
+
+三、安装
+
+使用npm
+
+//安装
+npm install axios --save
+
+//导入
+import axios from "axios"
+
+使用 cdn:
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+四、axios返回的数据
+
+    config 请求的时候附带的配置参数
+    data 后端返回的数据
+    headers 请求头 里面包含发送给后端的格式 application/json;charset=UTF-8
+    request ajax请求
+    status 返回的状态码
+    statusText 返回的状态文字
+
+五、使用axios请求数据
+
+（1）发送GET不带参数请求
+
+import axios from "axios";
+export default {
+  methods: {
+    init(){
+      axios.get('http://www.bufantec.com/api/douban/movie/in_theaters')
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created () {
+    this.init();
+  }
+}
+
+（2）get带参数请求
+
+import axios from "axios";
+export default {
+  methods: {
+    init(){
+      axios.get('http://www.bufantec.com/api/douban/movie/in_theaters?start=1&limit=10')
+      // get请求附带参数的另一种写法
+      /* axios.get('http://www.bufantec.com/api/douban/movie/in_theaters',{
+        params:{
+          start:2,
+          limit:10
+        }
+      }) */
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created () {
+    this.init();
+  }
+}
+
+（3）post请求
+
+ axios.post('http://order.gjw.com/Order_Api/GetValiCode')
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+（4）post 带参数请求
+
+axios.post('http://order.gjw.com/Order_Api/GetValiCode',{
+        Mob:18311111111,
+        validcode:"815961",
+        use:"regiVali"
+      } )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+post请求注意事项
+
+axios 使用 post 发送数据时，默认是直接把传递的参数转换成 json 放到请求体中提交到后端的。也就是说，我们的 Content-Type 变成了 application/json;charset=utf-8 ,这是axios默认的请求头content-type类型。但是实际我们后端要求的 ‘Content-Type’: ‘application/x-www-form-urlencoded’ 为多见，这就与我们不符合。
+在HTTP协议消息头中，使用Content-Type来表示请求和响应中的媒体类型信息。它用来告诉服务端如何处理请求的数据，以及告诉客户端（一般是浏览器）如何解析响应的数据，比如显示图片，解析并展示html等等。
+post请求常见的数据格式（content-type）
+
+    Content-Type: application/json ： 请求体中的数据会以json字符串的形式发送到后端(axios默认的) 会导致后端接收不到我们发送给后端的数据
+
+    Content-Type: application/x-www-form-urlencoded：请求体中的数据会以普通表单形式（键值对）发送到后端
+
+解决方法
+
+    URLSearchParams // 不支持ie
+
+<script>
+import axios from "axios";
+let param = new URLSearchParams()
+param.append('username', 'admin')
+param.append('pwd', 'admin')
+export default {
+  methods: {
+    init(){
+      axios.post('http://localhost:3000/user',param )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created () {
+    this.init();
+  }
+}
+</script>
+
+    qs模块 qs模块在node中默认自带
+
+npm install qs --save
+
+<script>
+import axios from "axios";
+import qs from "qs";
+export default {
+  name: '',
+  data() { 
+    return {
+    }
+  },
+  methods: {
+      add(){
+          // post
+          // post请求如果附带参数 那么需要附带的参数用qs.stringify转一下
+        var obj = {
+            name:"张飞1",
+            age:10,
+            sex:1,
+            tel:123,
+            address:"不凡1",
+            school:"不凡1",
+        }
+        axios.post("http://59.110.138.169/api/ajax/user/save",qs.stringify(obj)
+        )
+      }
+  }
+ }
+</script>
+
+六、axios执行多个并发请求
+
+一次执行多次ajax请求
+promise.all
+执行多个并发请求是通过axios.all完成
+
+axios.all([function , function , ...])
+
+请求完成之后 会以数组的形式返回全部的请求数据
+七、请求电影案例
