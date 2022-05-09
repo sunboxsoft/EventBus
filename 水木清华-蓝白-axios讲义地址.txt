@@ -1,5 +1,8 @@
+讲义地址
 http://doc.bufanui.com/docs/vue/vue-1dm8o53276d04
 
+接口地址
+http://leju.bufan.cloud/swagger-ui.html
 
 一、简介
 

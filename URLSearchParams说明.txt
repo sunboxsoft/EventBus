@@ -1,0 +1,21 @@
+<script>
+import axios from "axios";
+let param = new URLSearchParams()
+param.append('username', 'admin')
+param.append('pwd', 'admin')
+export default {
+  methods: {
+    init(){
+      axios.post('http://localhost:3000/user',param )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  created () {
+    this.init();
+  }
+}
