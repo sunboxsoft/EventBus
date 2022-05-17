@@ -21,7 +21,11 @@ export default {
       })
   },
   mounted() {},
-  methods: {}
+  methods: {},
+  beforeDestroy(){
+    //移除监听事件
+    bus.$off('share')
+  },
 }
 </script>
 
